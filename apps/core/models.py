@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 from evernewnote import config
 
 # TODO: use django-taggit to manage tags for Notes
@@ -8,20 +7,19 @@ from evernewnote import config
 
 
 # First pass at Notebook model
-# One notebook to many notes
 class Notebook(models.Model):
     user = models.ForeignKey(
         config.base.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
     title = models.CharField(max_length=25)
-    # notes = models.ForeignKey(Note, on_delete=models.CASCADE, blank=True, null=True)  # ok to have no notes
 
     def __str__(self):
         return self.user.username + "'s notebook: " + self.title
 
 
 # First pass at Note model
+# Many notes to one notebook
 class Note(models.Model):
     user = models.ForeignKey(
         config.base.AUTH_USER_MODEL,
