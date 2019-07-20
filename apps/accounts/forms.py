@@ -3,6 +3,7 @@ from django import forms
 
 from apps.accounts.models import User
 
+
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
@@ -12,6 +13,7 @@ class UserEditForm(forms.ModelForm):
             'email',
             'bio',
         )
+
 
 class SignupForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
