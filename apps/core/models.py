@@ -25,8 +25,8 @@ class Note(models.Model):
         config.base.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    title = models.CharField(max_length=100, default="<No title>")
-    text = models.CharField(max_length=400, blank=True, null=True)  # TODO: use more appropriate type
+    title = models.CharField(max_length=100)        # deleted default field "No title"
+    text = models.TextField(blank=True, null=True)  # changed type from CharField to TextField
     notebook = models.ForeignKey(Notebook, on_delete=models.CASCADE)
 
     created = models.DateTimeField(auto_now_add=True)
