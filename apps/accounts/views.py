@@ -97,6 +97,7 @@ def view_profile(request, username):
 
     user = User.objects.get(username=username)
     notebooks = Notebook.objects.filter(user=user)
+    
 
     context = {
         'user': user,
@@ -119,7 +120,29 @@ def edit_profile(request):
 
     context = {
         'form': form,
+    }  
+    return render(request, 'accounts/edit_profile.html', context)    
+        
+def view_allnotes(request, username):
+    user = User.objects.get(username=username)
+
+    if request.user == user:
+        is_viewing_self = True
+        form = None
+    else:
+        is_viewing_self = False
+        form = None
+    user_allnotes = Note.objects.filter(user=user)
+    print(user_allnotes)
+    notebooks = Notebook.objects.filter(user=user)
+        
+    context = {
+        'user': user,
+        'is_viewing_self': is_viewing_self,
+        'form': form,
+        'notebooks': notebooks,
+        'allnotes': user_allnotes,
     }
-    return render(request, 'accounts/edit_profile.html', context)
+    return render(request, 'accounts/view_allnotes.html', context)
 
 

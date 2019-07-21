@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    @{{ user.username }}
+{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <img src="{{ user.gravatar }}" />
+
+        <h3>@{{ user.username }}</h3>
+        <p><strong>{{ user.first_name }} {{ user.last_name }}</strong></p>
+        <p>{{ user.bio }}</p>
+
+        {% if is_viewing_self %}
+            <a href="{% url "edit_profile" %}">Edit</a>
+            <br/>
+            <br/>
+            <h3>Notebooks</h3>
+            {% for notebook in notebooks %}
+{#                <a href="{% url "" %}"#}
+                <p>     {{ notebook.title }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="col-md-9">
+    {% if is_viewing_self %}
+        {% if user.is_authenticated and is_viewing_self %}
+            <form enctype="multipart/form-data" method="post" action=".">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-lg btn-info">Save</button>
+            </form>
+            {% endif %}
+    {% endif %}
+    </div>
+    <div>
+        {% if is_viewing_self %}
+            {% for note in allnotes %}
+{#                <a href="{% url "" %}"#}
+                  <p>     {{ note.title }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
