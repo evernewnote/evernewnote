@@ -20,3 +20,15 @@ def about(request):
 def user_page(request):
     context = {}
     return render(request, "", context)
+
+
+# TODO: logged in only
+def main_view(request):
+    context = {}
+    return render(request, "pages/main.html", context)
+
+
+# TODO: logged in only
+def edit_note(request):
+    context = {}
+    return render(request, "pages/note_edit.html", context)
