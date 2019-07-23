@@ -9,6 +9,7 @@
     <div class="container pt-2">
         <form enctype="multipart/form-data" method="post" action=".">
             {% csrf_token %}
+            {{ form.media }}
             {{ form.as_p }}
             <button class="btn btn-lg btn-info">Save</button>
         </form>
