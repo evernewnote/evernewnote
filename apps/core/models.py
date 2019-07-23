@@ -1,6 +1,8 @@
 from django.db import models
 from evernewnote import config
 
+from ckeditor.fields import RichTextField
+
 # TODO: use django-taggit to manage tags for Notes
 
 # Remember to run python manage.py makemigrations and then migrate when making changes!
@@ -35,6 +37,9 @@ class Note(models.Model):
     def __str__(self):
         return self.user.username + "'s note: " + self.title
 
+
+class TestNote(models.Model):
+    content = RichTextField()
 
 # NOTE: User is a built-in model in Django, which means it's not included in
 # models.py since it automatically comes with Django "for free". It has the

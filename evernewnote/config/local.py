@@ -13,7 +13,7 @@ DATABASES = {
     }
 }
 
-INSTALLED_APPS += ['debug_toolbar']
+INSTALLED_APPS += ['debug_toolbar', 'ckeditor']
 
 # Add in Debug Toolbar Middleware
 MIDDLEWARE = [
