@@ -39,7 +39,15 @@ class Note(models.Model):
 
 
 class TestNote(models.Model):
+    user = models.ForeignKey(
+        config.base.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=80, default="")
     content = RichTextField()
+
+    def __str__(self):
+        return str(self.id) + ":  " + self.title + " || " + self.content
 
 # NOTE: User is a built-in model in Django, which means it's not included in
 # models.py since it automatically comes with Django "for free". It has the
