@@ -172,9 +172,9 @@
 
         <!-- Note Sidebar -->
         <div class="bg-light border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading list-group">{{ note_sidebar_notebook }}</div>
             {% for nb, qs in notes_by_notebook.items %}
                 <div id="{{ nb }}" class="collapse.show list-group-flush sidebar-submenu">
+                    <div class="sidebar-heading list-group">{{ nb }}</div>
                     {% for note in qs %}
                         <a href="#" class="list-group-item list-group-item-action bg-light">{{ note.title }}</a>
                     {% endfor %}
