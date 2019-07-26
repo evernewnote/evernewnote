@@ -7,3 +7,4 @@ DEBUG = False
 import django_heroku
 django_heroku.settings(locals())
 
+INSTALLED_APPS += ['ckeditor']
