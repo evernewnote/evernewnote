@@ -34,7 +34,7 @@
     <div class="container">
         <a class="navbar-brand" href="/">
             <!-- Add your logo here!  <img src="" /> -->
-            My Site
+            Evernewnote
         </a>
 
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,17 +44,6 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">Start</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'view_all_users' %}">Users</a>
-                </li>
-            </ul>
             <ul class="navbar-nav ml-auto">
                 {% if request.user.is_authenticated %}
                     <li class="nav-item">
@@ -77,8 +66,8 @@
             </ul>
 
         </div>
-    </nav>
-</div>
+    </div>
+</nav>
 
 
 
@@ -102,6 +91,5 @@
 
       <script src="{% static 'js/bootstrap/jquery-3.4.1.min.js' %}"></script>
       <script src="{% static 'js/bootstrap/bootstrap.js' %}"></script>
-  </body>
+    </body>
 </html>
-

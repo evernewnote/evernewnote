@@ -97,7 +97,7 @@
                 </li>
                 <!-- /END Separator -->
 
-                <a href="{% url 'test_new' %}" class="bg-dark list-group-item list-group-item-action">
+                <a href="{% url 'new' %}" class="bg-dark list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-start align-items-center">
                         <span class="fa fa-tasks fa-fw mr-3"></span>
                         <span class="menu-collapsed">New Note</span>
@@ -172,14 +172,19 @@
 
         <!-- Note Sidebar -->
         <div class="bg-light border-right" id="sidebar-wrapper">
+
             {% for nb, qs in notes_by_notebook.items %}
                 <div id="{{ nb }}" class="collapse.show list-group-flush sidebar-submenu">
+
                     <div class="sidebar-heading list-group">{{ nb }}</div>
+
                     {% for note in qs %}
-                        <a href="#" class="list-group-item list-group-item-action bg-light">{{ note.title }}</a>
+                        <a href="{% url 'edit' note.id %}" class="list-group-item list-group-item-action bg-light">{{ note.title }}</a>
                     {% endfor %}
+
                 </div>
             {% endfor %}
+
         </div>
 
         <!-- MAIN -->
