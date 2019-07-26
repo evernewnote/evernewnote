@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Note
-from .models import Notebook
+from .models import Notebook, Note
 
 
 # Register your models here.
