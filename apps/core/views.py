@@ -102,11 +102,21 @@ def test_edit_note(request, note_id, notebook_menu_id=None):
         print("test edit note: " + request.method + " " + request.META.get('HTTP_REFERER', '/'))
         form = EditRichTextNote(user=user, instance=note)
 
+        notes_by_notebook = {}
+        for notebook in notebooks:
+            l = []
+            for n in TestNote.objects.filter(notebook=notebook.id):
+                l.append(n)
+            notes_by_notebook[notebook.title] = l
+
+        print(notes_by_notebook)
+
         context = {
             'form': form,
             'note_id': note_id,
             'notebooks': notebooks,
             'note_sidebar_notebook': note_sidebar_notebook,
+            'notes_by_notebook': notes_by_notebook
         }
         return render(request, "pages/test_note_edit.html", context)
 

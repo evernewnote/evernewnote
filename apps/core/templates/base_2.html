@@ -140,9 +140,9 @@
                     </div>
                 </a>
                 <!-- Notebook submenu -->
-                <div id='submenu2' class="collapse sidebar-submenu">
+                <div id='submenu2' class="sidebar-submenu collapse.show">
                     {% for notebook in notebooks %}
-                        <a href="{% url 'choose_notebook' notebook.id %}" class="list-group-item list-group-item-action bg-dark text-white">
+                        <a href="#{{ notebook.title }}" data-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white">
                         <span class="menu-collapsed">{{ notebook.title }}</span>
                     </a>
                     {% endfor %}
@@ -172,15 +172,14 @@
 
         <!-- Note Sidebar -->
         <div class="bg-light border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading">{{ note_sidebar_notebook }}</div>
-            <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action bg-light">Note 1</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Note 2</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Note 3</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Note 4</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Note 5</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Note 6</a>
-            </div>
+            <div class="sidebar-heading list-group">{{ note_sidebar_notebook }}</div>
+            {% for nb, qs in notes_by_notebook.items %}
+                <div id="{{ nb }}" class="collapse.show list-group-flush sidebar-submenu">
+                    {% for note in qs %}
+                        <a href="#" class="list-group-item list-group-item-action bg-light">{{ note.title }}</a>
+                    {% endfor %}
+                </div>
+            {% endfor %}
         </div>
 
         <!-- MAIN -->
