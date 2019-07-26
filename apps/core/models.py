@@ -8,37 +8,37 @@ from ckeditor.fields import RichTextField
 # Remember to run python manage.py makemigrations and then migrate when making changes!
 
 
-# First pass at Notebook model
+# # First pass at Notebook model
+# class Notebook(models.Model):
+#     user = models.ForeignKey(
+#         config.base.AUTH_USER_MODEL,
+#         on_delete=models.CASCADE,
+#     )
+#     title = models.CharField(max_length=25)
+#
+#     def __str__(self):
+#         return self.user.username + "'s notebook: " + self.title
+#
+#
+# # First pass at Note model
+# # Many notes to one notebook
+# class Note(models.Model):
+#     user = models.ForeignKey(
+#         config.base.AUTH_USER_MODEL,
+#         on_delete=models.CASCADE,
+#     )
+#     title = models.CharField(max_length=100, default="<No title>")
+#     text = models.CharField(max_length=400, blank=True, null=True)  # TODO: use more appropriate type
+#     notebook = models.ForeignKey(Notebook, on_delete=models.CASCADE)
+#
+#     created = models.DateTimeField(auto_now_add=True)
+#     modified = models.DateTimeField(auto_now=True)
+#
+#     def __str__(self):
+#         return self.user.username + "'s note: " + self.title
+
+
 class Notebook(models.Model):
-    user = models.ForeignKey(
-        config.base.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-    )
-    title = models.CharField(max_length=25)
-
-    def __str__(self):
-        return self.user.username + "'s notebook: " + self.title
-
-
-# First pass at Note model
-# Many notes to one notebook
-class Note(models.Model):
-    user = models.ForeignKey(
-        config.base.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-    )
-    title = models.CharField(max_length=100, default="<No title>")
-    text = models.CharField(max_length=400, blank=True, null=True)  # TODO: use more appropriate type
-    notebook = models.ForeignKey(Notebook, on_delete=models.CASCADE)
-
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.user.username + "'s note: " + self.title
-
-
-class TestNotebook(models.Model):
     user = models.ForeignKey(
         config.base.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -49,14 +49,17 @@ class TestNotebook(models.Model):
         return str(self.id) + ":  " + self.title
 
 
-class TestNote(models.Model):
+class Note(models.Model):
     user = models.ForeignKey(
         config.base.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
     title = models.CharField(max_length=80, default="")
     content = RichTextField()
-    notebook = models.ForeignKey(TestNotebook, on_delete=models.CASCADE)
+    notebook = models.ForeignKey(Notebook, on_delete=models.CASCADE)
+
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.id) + ": " + self.title + " || " + self.content

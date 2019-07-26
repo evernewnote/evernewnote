@@ -15,24 +15,12 @@
 
         {% if is_viewing_self %}
             <a href="{% url "edit_profile" %}">Edit</a>
-            <br/>
-            <br/>
-            <h3>Notebooks</h3>
-            {% for notebook in notebooks %}
-{#                <a href="{% url "" %}"#}
-                <p>     {{ notebook.title }}</p>
-            {% endfor %}
         {% endif %}
     </div>
 
     <div class="col-md-9">
     {% if is_viewing_self %}
         {% if user.is_authenticated and is_viewing_self %}
-            <form enctype="multipart/form-data" method="post" action=".">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button class="btn btn-lg btn-info">Save</button>
-            </form>
             {% endif %}
     {% endif %}
     </div>

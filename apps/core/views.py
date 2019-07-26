@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from apps.accounts.models import User
 
 from apps.core.forms import EditRichTextNote
-from apps.core.models import TestNote, TestNotebook
+from apps.core.models import Note, Notebook
 
 
 # Two example views. Change or delete as necessary.
@@ -34,14 +34,13 @@ def main_view(request):
     return render(request, "pages/main.html", context)
 
 
-# TODO: logged in only
-def edit_note(request):
-    context = {}
-    return render(request, "pages/note_edit.html", context)
+# def edit_note(request):
+#     context = {}
+#     return render(request, "pages/note_edit.html", context)
 
 
 def print_user_notes(user):
-    notes = TestNote.objects.filter(user=user)
+    notes = Note.objects.filter(user=user)
     for note in notes:
         print(note)
 
@@ -57,19 +56,19 @@ def note_change(form, user):
         return None
 
 
-def test_new_note(request, notebook_menu_id=None):
+def new_note(request, notebook_menu_id=None):
     user = User.objects.get(username=request.user)
-    notebooks = TestNotebook.objects.filter(user=user)
+    notebooks = Notebook.objects.filter(user=user)
     if notebook_menu_id:
-        note_sidebar_notebook = TestNotebook.objects.get(id=notebook_menu_id)
+        note_sidebar_notebook = Notebook.objects.get(id=notebook_menu_id)
     else:
-        note_sidebar_notebook = TestNotebook.objects.get(id=1)
+        note_sidebar_notebook = Notebook.objects.get(id=1)
 
     if request.method == 'POST':
         form = EditRichTextNote(user, request.POST)
 
         form, note_id = note_change(form, user)
-        return redirect('/test_edit_note/' + str(note_id))
+        return redirect('/edit_note/' + str(note_id))
 
     else:
         form = EditRichTextNote(user=user, initial={"title": "Title"})
@@ -81,23 +80,24 @@ def test_new_note(request, notebook_menu_id=None):
         return render(request, "pages/test_note_new.html", context)
 
 
-def test_edit_note(request, note_id, notebook_menu_id=None):
-    note = TestNote.objects.get(id=note_id)
+# TODO: logged in only
+def edit_note(request, note_id, notebook_menu_id=None):
+    note = Note.objects.get(id=note_id)
     user = User.objects.get(username=request.user)
-    notebooks = TestNotebook.objects.filter(user=user)
-    print("## test_edit_note ##")
+    notebooks = Notebook.objects.filter(user=user)
+    print("## edit_note ##")
     print(request.GET)
     if notebook_menu_id:
-        note_sidebar_notebook = TestNotebook.objects.get(id=notebook_menu_id)
+        note_sidebar_notebook = Notebook.objects.get(id=notebook_menu_id)
     else:
-        note_sidebar_notebook = TestNotebook.objects.get(id=1)
+        note_sidebar_notebook = Notebook.objects.get(id=1)
 
     if request.method == 'POST':
         form = EditRichTextNote(user, request.POST, instance=note)
         form = note_change(form, user)
 
         print("test edit note: method is post" + request.META.get('HTTP_REFERER', '/'))
-        return HttpResponseRedirect('/test_edit_note/' + str(note_id))
+        return HttpResponseRedirect('/edit_note/' + str(note_id))
     else:
         print("test edit note: " + request.method + " " + request.META.get('HTTP_REFERER', '/'))
         form = EditRichTextNote(user=user, instance=note)
@@ -105,7 +105,7 @@ def test_edit_note(request, note_id, notebook_menu_id=None):
         notes_by_notebook = {}
         for notebook in notebooks:
             l = []
-            for n in TestNote.objects.filter(notebook=notebook.id):
+            for n in Note.objects.filter(notebook=notebook.id):
                 l.append(n)
             notes_by_notebook[notebook.title] = l
 
@@ -119,11 +119,6 @@ def test_edit_note(request, note_id, notebook_menu_id=None):
             'notes_by_notebook': notes_by_notebook
         }
         return render(request, "pages/test_note_edit.html", context)
-
-
-def choose_notebook(request, notebook):
-    print("Choose " + str(notebook))
-    return redirect(request.META.get('HTTP_REFERER', '/'), notebook_menu_id=notebook)
 
 
 def page_not_found(request):

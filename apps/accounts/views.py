@@ -8,23 +8,21 @@ from django.contrib.auth.decorators import login_required
 from apps.accounts.forms import UserEditForm, SignupForm
 from apps.accounts.models import User
 
-from apps.core.models import Note, Notebook
 
-
-class NewNoteForm(forms.ModelForm):
-    class Meta:
-        model = Note
-        fields = ["title", "text", "notebook"]
-
-    def __init__(self, user, *args, **kwargs):
-        super(NewNoteForm, self).__init__(*args, **kwargs)
-        self.fields['notebook'].queryset = Notebook.objects.filter(user=user).values_list('title', flat=True)
-
-
-class NewNotebookForm(forms.ModelForm):
-    class Meta:
-        model = Notebook
-        fields = ["title"]
+# class NewNoteForm(forms.ModelForm):
+#     class Meta:
+#         model = Note
+#         fields = ["title", "text", "notebook"]
+#
+#     def __init__(self, user, *args, **kwargs):
+#         super(NewNoteForm, self).__init__(*args, **kwargs)
+#         self.fields['notebook'].queryset = Notebook.objects.filter(user=user).values_list('title', flat=True)
+#
+#
+# class NewNotebookForm(forms.ModelForm):
+#     class Meta:
+#         model = Notebook
+#         fields = ["title"]
 
 
 def log_in(request):
@@ -80,29 +78,14 @@ def view_profile(request, username):
 
     if request.user == user:
         is_viewing_self = True
-
-        if request.method == "POST":
-            form = NewNoteForm(request.user, request.POST)
-
-            if form.is_valid():
-                note = form.save(commit=False)
-                note.user = request.user
-                note.save()
-                return redirect(request.META.get('HTTP_REFERER', '/'))
-        else:
-            form = NewNoteForm(user)
     else:
         is_viewing_self = False
-        form = None
 
     user = User.objects.get(username=username)
-    notebooks = Notebook.objects.filter(user=user)
 
     context = {
         'user': user,
         'is_viewing_self': is_viewing_self,
-        'form': form,
-        'notebooks': notebooks,
     }
     return render(request, 'accounts/profile_page.html', context)
 

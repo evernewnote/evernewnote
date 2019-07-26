@@ -7,7 +7,7 @@
 
 {% block content %}
     <div class="container pt-2">
-        <form enctype="multipart/form-data" method="post" action="/test_edit_note/{{ note_id }}">
+        <form enctype="multipart/form-data" method="post" action="/edit_note/{{ note_id }}">
             {% csrf_token %}
             {{ form.media }}
             {{ form.as_p }}
