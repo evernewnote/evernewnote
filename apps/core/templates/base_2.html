@@ -97,19 +97,21 @@
                 </li>
                 <!-- /END Separator -->
 
-                <a href="{% url 'edit' %}" class="bg-dark list-group-item list-group-item-action">
+                <a href="{% url 'test_new' %}" class="bg-dark list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-start align-items-center">
                         <span class="fa fa-tasks fa-fw mr-3"></span>
                         <span class="menu-collapsed">New Note</span>
                     </div>
                 </a>
-                <!-- Menu with submenu -->
+                <!-- All notes menu item -->
                 <a href="#" class="bg-dark list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-start align-items-center">
                         <span class="fa fa-tasks fa-fw mr-3"></span>
                         <span class="menu-collapsed">All Notes</span>
                     </div>
                 </a>
+
+                <!-- Shortcuts menu -->
                 <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-start align-items-center">
                         <span class="fa fa-dashboard fa-fw mr-3"></span>
@@ -117,7 +119,7 @@
                         <span class="submenu-icon ml-auto"></span>
                     </div>
                 </a>
-                <!-- Submenu content -->
+                <!-- Shortcuts submenu -->
                 <div id='submenu1' class="collapse sidebar-submenu">
                     <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
                         <span class="menu-collapsed">Note 1</span>
@@ -129,6 +131,7 @@
                         <span class="menu-collapsed">Note 5</span>
                     </a>
                 </div>
+                <!-- Notebook menu item-->
                 <a href="#submenu2" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-start align-items-center">
                         <span class="fa fa-user fa-fw mr-3"></span>
@@ -136,15 +139,16 @@
                         <span class="submenu-icon ml-auto"></span>
                     </div>
                 </a>
-                <!-- Submenu content -->
+                <!-- Notebook submenu -->
                 <div id='submenu2' class="collapse sidebar-submenu">
-                    <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                        <span class="menu-collapsed">Notebook 1 title</span>
+                    {% for notebook in notebooks %}
+                        <a href="{% url 'choose_notebook' notebook.id %}" class="list-group-item list-group-item-action bg-dark text-white">
+                        <span class="menu-collapsed">{{ notebook.title }}</span>
                     </a>
-                    <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                        <span class="menu-collapsed">Notebook 2 title</span>
-                    </a>
+                    {% endfor %}
                 </div>
+
+                <!-- Tag menu item -->
                 <a href="#" class="bg-dark list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-start align-items-center">
                         <span class="fa fa-tasks fa-fw mr-3"></span>
@@ -166,9 +170,9 @@
             </ul><!-- List Group END-->
         </div><!-- sidebar-container END -->
 
-        <!-- Sidebar -->
+        <!-- Note Sidebar -->
         <div class="bg-light border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading">Notebook title </div>
+            <div class="sidebar-heading">{{ note_sidebar_notebook }}</div>
             <div class="list-group list-group-flush">
                 <a href="#" class="list-group-item list-group-item-action bg-light">Note 1</a>
                 <a href="#" class="list-group-item list-group-item-action bg-light">Note 2</a>

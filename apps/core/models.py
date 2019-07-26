@@ -38,6 +38,17 @@ class Note(models.Model):
         return self.user.username + "'s note: " + self.title
 
 
+class TestNotebook(models.Model):
+    user = models.ForeignKey(
+        config.base.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=30)
+
+    def __str__(self):
+        return str(self.id) + ":  " + self.title
+
+
 class TestNote(models.Model):
     user = models.ForeignKey(
         config.base.AUTH_USER_MODEL,
@@ -45,9 +56,11 @@ class TestNote(models.Model):
     )
     title = models.CharField(max_length=80, default="")
     content = RichTextField()
+    notebook = models.ForeignKey(TestNotebook, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.id) + ":  " + self.title + " || " + self.content
+        return str(self.id) + ": " + self.title + " || " + self.content
+
 
 # NOTE: User is a built-in model in Django, which means it's not included in
 # models.py since it automatically comes with Django "for free". It has the
