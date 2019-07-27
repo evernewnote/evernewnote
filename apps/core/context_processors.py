@@ -15,7 +15,7 @@ def menu_items(request):
             lst = []
             for n in Note.objects.filter(notebook=notebook.id):
                 lst.append(n)
-            notes_by_notebook[notebook.title] = lst
+            notes_by_notebook[notebook] = lst
 
         return {'notes_by_notebook': notes_by_notebook,
                 'notebooks': notebooks,

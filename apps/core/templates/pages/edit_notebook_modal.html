@@ -1,0 +1,32 @@
+{% extends "base_2.html" %}
+
+{% block edit_notebook_modal %}
+    <!-- Edit notebook modal -->
+    <div class="modal fade" id="editNotebookForm{{ nb.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Notebook {{ nb.title }}'s new name</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form enctype="multipart/form-data" method="post" action="{% url 'edit_notebook' nb.id %}">
+                        {% csrf_token %}
+                        {{ notebook_form.non_field_errors }}
+                        <div class="fieldWrapper form-group">
+                            <input type="text" class="form-control" name="title" maxlength="30" required="" id="id_title">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Continue</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock edit_notebook_modal %}

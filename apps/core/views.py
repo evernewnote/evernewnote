@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from apps.accounts.models import User
 
 from apps.core.forms import EditRichTextNote, NewNotebook
-from apps.core.models import Note
+from apps.core.models import Note, Notebook
 
 
 def home(request):
@@ -34,8 +34,8 @@ def new_note(request):
         form = EditRichTextNote(user, request.POST)
 
         form, note_id = note_change(form, user)
-        return redirect('/edit_note/' + str(note_id))
-
+        return redirect('/view_note/' + str(note_id))
+        pass
     else:
         form = EditRichTextNote(user=user, initial={"title": "Title"})
         context = {
@@ -44,18 +44,18 @@ def new_note(request):
         return render(request, "pages/new_note.html", context)
 
 
-# TODO: logged in only
 @login_required
 def edit_note(request, note_id):
     note = Note.objects.get(id=note_id)
     user = User.objects.get(username=request.user)
 
     if request.method == 'POST':
-        form = EditRichTextNote(user, request.POST, instance=note)
-        form = note_change(form, user)
-
-        # print("test edit note: method is post" + request.META.get('HTTP_REFERER', '/'))
-        return HttpResponseRedirect('/edit_note/' + str(note_id))
+        # form = EditRichTextNote(user, request.POST, instance=note)
+        # form = note_change(form, user)
+        #
+        # # print("test edit note: method is post" + request.META.get('HTTP_REFERER', '/'))
+        # return HttpResponseRedirect('/edit_note/' + str(note_id))
+        pass
     else:
         print("test edit note: " + request.method + " " + request.META.get('HTTP_REFERER', '/'))
         form = EditRichTextNote(user=user, instance=note)
@@ -68,16 +68,63 @@ def edit_note(request, note_id):
 
 
 @login_required
+def save_note(request, note_id):
+    note = Note.objects.get(id=note_id)
+    user = User.objects.get(username=request.user)
+    form = EditRichTextNote(user, request.POST, instance=note)
+    form = note_change(form, user)
+
+    return HttpResponseRedirect('/view_note/' + str(note_id))
+
+
+def view_note(request, note_id):
+    note = Note.objects.get(id=note_id)
+
+    context = {
+        'note': note,
+    }
+    return render(request, 'pages/view_note.html', context)
+
+
+@login_required
+def delete_note(request, note_id):
+    note = Note.objects.get(id=note_id)
+    note.delete()
+    return HttpResponseRedirect('/exterior/')
+
+
+@login_required
 def new_notebook(request):
     # TODO: hitting enter works but the button doesn't - why?
     if request.method == 'POST':
         user = User.objects.get(username=request.user)
         form = NewNotebook(request.POST)
-        print(request.POST)
         if form.is_valid():
             notebook = form.save(commit=False)
             notebook.user = user
             notebook.save()
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+def edit_notebook(request, notebook_id):
+    user = User.objects.get(username=request.user)
+    notebook = Notebook.objects.get(id=notebook_id)
+    if request.method == 'POST':
+        form = NewNotebook(request.POST)
+        if form.is_valid():
+            notebook = form.save(commit=False)
+            notebook.id = notebook_id
+            notebook.user = user
+            notebook.save()
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+def delete_notebook(request, notebook_id):
+    notebook = Notebook.objects.get(id=notebook_id)
+    notebook.delete()
+    # print(notebook.title)
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
