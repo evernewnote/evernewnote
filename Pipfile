@@ -10,6 +10,9 @@ django-heroku = "*"
 gunicorn = "*"
 psycopg2-binary = "*"
 pipfile = "*"
+taggit = "*"
+django-taggit = "*"
+tagstar = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
