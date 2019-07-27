@@ -18,3 +18,12 @@ class EditRichTextNote(forms.ModelForm):
         super(EditRichTextNote, self).__init__(*args, **kwargs)
         self.fields['notebook'].queryset = Notebook.objects.filter(user=user)
         self.fields['notebook'].empty_label = "Choose a notebook"
+
+
+class NewNotebook(forms.ModelForm):
+    class Meta:
+        model = Notebook
+        fields = ('title',)
+        labels = {
+            'title': _(""),
+        }

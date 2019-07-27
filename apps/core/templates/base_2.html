@@ -28,6 +28,8 @@
 
     <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
 
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css">
+
   </head>
 
 <body>
@@ -39,7 +41,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-    <a class="navbar-brand" href="#">
+    <object style="color: #ffffff;" type="image/svg+xml" width="88" height="45" data="{% static "images/frog-solid.svg" %}"></object>
+    <a class="navbar-brand" href="{% url 'home' %}">
         <span class="menu-collapsed">EverNewNote</span>
     </a>
 
@@ -99,14 +102,14 @@
 
                 <a href="{% url 'new' %}" class="bg-dark list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span class="fa fa-tasks fa-fw mr-3"></span>
+                        <span class="fa fa-plus-circle fa-fw mr-2"></span>
                         <span class="menu-collapsed">New Note</span>
                     </div>
                 </a>
                 <!-- All notes menu item -->
                 <a href="#" class="bg-dark list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span class="fa fa-tasks fa-fw mr-3"></span>
+                        <span class="fa fa-file fa-fw mr-2"></span>
                         <span class="menu-collapsed">All Notes</span>
                     </div>
                 </a>
@@ -114,7 +117,7 @@
                 <!-- Shortcuts menu -->
                 <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span class="fa fa-dashboard fa-fw mr-3"></span>
+                        <span class="fa fa-star-o fa-fw mr-2"></span>
                         <span class="menu-collapsed">Shortcuts</span>
                         <span class="submenu-icon ml-auto"></span>
                     </div>
@@ -122,36 +125,81 @@
                 <!-- Shortcuts submenu -->
                 <div id='submenu1' class="collapse sidebar-submenu">
                     <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                        <span class="fa fa-file fa-fw mr-1"></span>
                         <span class="menu-collapsed">Note 1</span>
                     </a>
                     <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                        <span class="fa fa-file fa-fw mr-1"></span>
                         <span class="menu-collapsed">Note 3</span>
                     </a>
                     <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                        <span class="fa fa-file fa-fw mr-1"></span>
                         <span class="menu-collapsed">Note 5</span>
                     </a>
                 </div>
+
                 <!-- Notebook menu item-->
                 <a href="#submenu2" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span class="fa fa-user fa-fw mr-3"></span>
+                        <span class="fa fa-book fa-fw mr-2"></span>
                         <span class="menu-collapsed">Notebooks</span>
                         <span class="submenu-icon ml-auto"></span>
                     </div>
                 </a>
+
                 <!-- Notebook submenu -->
                 <div id='submenu2' class="sidebar-submenu collapse.show">
+
+                    <a href="#newNotebookForm" data-toggle="modal" class="list-group-item list-group-item-action bg-dark text-white">
+                        <span class="fa fa-plus-circle fa-fw mr-1"></span>
+                        <span class="menu-collapsed">New notebook</span>
+                    </a>
+
+                    <!-- New notebook modal -->
+                    <div class="modal fade" id="newNotebookForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Create new notebook</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form enctype="multipart/form-data" method="post" action="{% url 'new_note' %}">
+                                        {% csrf_token %}
+                                        {{ notebook_form.non_field_errors }}
+                                        <div class="fieldWrapper form-group">
+                                            {#                                            {{ notebook_form.title.errors }}#}
+{#                                            {{ notebook_form.title }}#}
+                                            <input type="text" class="form-control" name="title" maxlength="30" required="" id="id_title">
+                                        </div>
+                                        {#                                        <button class="btn btn-sm btn-info">Save</button>#}
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Continue</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notebook list -->
                     {% for notebook in notebooks %}
                         <a href="#{{ notebook.title }}" data-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white">
-                        <span class="menu-collapsed">{{ notebook.title }}</span>
-                    </a>
+                            <span class="fa fa-book fa-fw mr-1"></span>
+                            <span class="menu-collapsed">{{ notebook.title }}</span>
+                        </a>
                     {% endfor %}
                 </div>
 
                 <!-- Tag menu item -->
                 <a href="#" class="bg-dark list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span class="fa fa-tasks fa-fw mr-3"></span>
+                        <span class="fa fa-tags fa-fw mr-2"></span>
                         <span class="menu-collapsed">Tags</span>
                     </div>
                 </a>
@@ -163,7 +211,7 @@
 {#                TODO: fix the collapse: need icons and fix username/gravatar#}
                 <a href="#" data-toggle="sidebar-colapse" class="bg-dark list-group-item list-group-item-action d-flex align-items-center">
                     <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span id="collapse-icon" class="fa fa-2x mr-3"></span>
+                        <span id="collapse-icon" class="fa fa-2x mr-2"></span>
                         <span id="collapse-text" class="menu-collapsed">Collapse</span>
                     </div>
                 </a>
@@ -212,6 +260,8 @@
     <script src="{% static 'js/bootstrap/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/bootstrap.js' %}"></script>
     <script src="{% static 'js/collapsable_sidebar.js'%}"></script>
+{#    <script src="{% static 'js/new_notebook_popover.js'%}"></script>#}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>#}
   </body>
 </html>
 

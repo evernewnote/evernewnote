@@ -1,23 +1,18 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 from apps.accounts.models import User
 
-from apps.core.forms import EditRichTextNote
-from apps.core.models import Note, Notebook
+from apps.core.forms import EditRichTextNote, NewNotebook
+from apps.core.models import Note
 
 
-# Two example views. Change or delete as necessary.
 def home(request):
     if request.user.is_authenticated:
         return render(request, 'pages/home.html', {})
     else:
         return render(request, 'pages/exterior.html', {})
-
-
-# def user_page(request):
-#     context = {}
-#     return render(request, "", context)
 
 
 def note_change(form, user):
@@ -31,13 +26,9 @@ def note_change(form, user):
         return None
 
 
+@login_required
 def new_note(request):
     user = User.objects.get(username=request.user)
-    # notebooks = Notebook.objects.filter(user=user)
-    # if notebook_menu_id:
-    #     note_sidebar_notebook = Notebook.objects.get(id=notebook_menu_id)
-    # else:
-    #     note_sidebar_notebook = Notebook.objects.get(id=1)
 
     if request.method == 'POST':
         form = EditRichTextNote(user, request.POST)
@@ -49,23 +40,15 @@ def new_note(request):
         form = EditRichTextNote(user=user, initial={"title": "Title"})
         context = {
             'form': form,
-            # 'notebooks': notebooks,
-            # 'note_sidebar_notebook': note_sidebar_notebook,
         }
         return render(request, "pages/new_note.html", context)
 
 
 # TODO: logged in only
-def edit_note(request, note_id, notebook_menu_id=None):
+@login_required
+def edit_note(request, note_id):
     note = Note.objects.get(id=note_id)
     user = User.objects.get(username=request.user)
-    # notebooks = Notebook.objects.filter(user=user)
-    # print("## edit_note ##")
-    # print(request.GET)
-    if notebook_menu_id:
-        note_sidebar_notebook = Notebook.objects.get(id=notebook_menu_id)
-    else:
-        note_sidebar_notebook = Notebook.objects.get(id=1)
 
     if request.method == 'POST':
         form = EditRichTextNote(user, request.POST, instance=note)
@@ -77,23 +60,27 @@ def edit_note(request, note_id, notebook_menu_id=None):
         print("test edit note: " + request.method + " " + request.META.get('HTTP_REFERER', '/'))
         form = EditRichTextNote(user=user, instance=note)
 
-        # notes_by_notebook = {}
-        # for notebook in notebooks:
-        #     l = []
-        #     for n in Note.objects.filter(notebook=notebook.id):
-        #         l.append(n)
-        #     notes_by_notebook[notebook.title] = l
-
-        # print(notes_by_notebook)
-
         context = {
             'form': form,
             'note_id': note_id,
-            # 'notebooks': notebooks,
-            # 'notes_by_notebook': notes_by_notebook
         }
         return render(request, "pages/edit_note.html", context)
 
 
+@login_required
+def new_notebook(request):
+    # TODO: hitting enter works but the button doesn't - why?
+    if request.method == 'POST':
+        user = User.objects.get(username=request.user)
+        form = NewNotebook(request.POST)
+        print(request.POST)
+        if form.is_valid():
+            notebook = form.save(commit=False)
+            notebook.user = user
+            notebook.save()
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
 def page_not_found(request):
     return render(request, "404.html")
+
