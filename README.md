@@ -49,6 +49,7 @@ evernewnote/
 ### Near future
 * New notebook without using admin panel
 * File upload
+* Delete note
 * Note tagging
 * Search
 * Autosave on change
@@ -59,6 +60,7 @@ evernewnote/
 * more metadata in notes
 * Allow users to change profile
 * Set a default notebook 
+* Improve note edit ui
 
 ### Goals
 * Implement Operational Transform

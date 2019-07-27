@@ -1,0 +1,15 @@
+{% extends "base_2.html" %}
+
+{% block newNotebookPopover %}
+    <div id="newNotebookForm" >
+        <form enctype="multipart/form-data" method="post" action=".">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="fieldWrapper">
+                {{ form.title.errors }}
+                {{ form.title }}
+            </div>
+            <button class="btn btn-lg btn-info">Save</button>
+        </form>
+    </div>
+{% endblock newNotebookPopover %}

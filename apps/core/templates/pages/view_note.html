@@ -1,0 +1,25 @@
+{% extends "base_2.html" %}
+
+{% block title %}
+    EverNewNote - View Note
+{% endblock title %}
+
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+
+            <h2 class="card-title"> {{ note.title }}</h2>
+            <ul class="list-group list-group-flush">
+
+                <li class="list-group-item">
+                    <a href="{% url 'edit' note.id %}" class="card-link">Edit</a>
+                    <a href="{% url 'delete_note' note.id %}" class="card-link">Delete</a>
+                </li>
+                <li class="list-group-item">
+                    {% autoescape off %}{{ note.content }}{% endautoescape %}
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock content %}
