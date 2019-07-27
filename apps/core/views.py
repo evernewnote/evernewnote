@@ -15,22 +15,9 @@ def home(request):
         return render(request, 'pages/exterior.html', {})
 
 
-def about(request):
-    context = {
-    }
-
-    return render(request, 'pages/about.html', context)
-
-
-def user_page(request):
-    context = {}
-    return render(request, "", context)
-
-
-# TODO: logged in only
-def main_view(request):
-    context = {}
-    return render(request, "pages/main.html", context)
+# def user_page(request):
+#     context = {}
+#     return render(request, "", context)
 
 
 def note_change(form, user):
