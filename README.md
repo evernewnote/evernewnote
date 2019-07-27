@@ -11,20 +11,6 @@ A new evernote.
 
 * Organize notes in notebooks
 
-### Who is this for
-
-* This is for **new Python/Django programmers**, including **coding class
-  students** who want a solid start for a Django project that uses SQLite when
-  developing locally, and is ready to deploy Heroku provisioned Postgres
-  database.
-
-## Development
-
-* Prereq: [You have Pipenv installed.
-  ](https://github.com/kickstartcoding/pipenv-getting-started) You have Django
-  admin installed globally (macOS type `pip3 install django`, Ubuntu GNU/Linux,
-  type `sudo pip3 install django`)
-
 ### File structure
 
 Directory structure description below:
